@@ -1,9 +1,10 @@
+@import "@liveblocks/react-ui/styles.css"; 
+@import "@liveblocks/react-lexical/styles.css"; 
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* @import "@liveblocks/react-ui/styles.css"; */
-/* @import "@liveblocks/react-lexical/styles.css"; */
 
 /* @import "../styles/dark-theme.css"; */
 
@@ -36,6 +37,19 @@
 }
 
 @layer utilities {
+
+  .flex-center {
+    @apply flex items-center justify-center
+  }
+
+  .flex-between {
+    @apply flex items-center justify-between
+  }
+
+  .flex-items {
+    @apply flex items-center;
+  }
+
   .text-28-semibold {
     @apply text-[28px] font-semibold;
   }
@@ -65,7 +79,7 @@
   }
 
   .shad-select svg {
-    @apply ml-1 mt-1;
+    @apply mt-1 ml-1;
   }
 
   .shad-select-item {
@@ -81,11 +95,11 @@
   }
 
   .floating-toolbar-btn {
-    @apply relative inline-flex size-8 items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50;
+    @apply relative inline-flex items-center justify-center text-sm font-medium transition-colors rounded-md size-8 whitespace-nowrap focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50;
   }
 
   .toolbar-wrapper {
-    @apply z-50 custom-scrollbar w-screen overflow-auto border-y border-dark-300 bg-dark-100 pl-3 pr-4 shadow-sm;
+    @apply z-50 w-screen pl-3 pr-4 overflow-auto shadow-sm custom-scrollbar border-y border-dark-300 bg-dark-100;
   }
 
   .editor-wrapper {
@@ -97,7 +111,7 @@
   }
 
   .document-list-container {
-    @apply flex flex-col items-center mb-10 w-full gap-10 px-5;
+    @apply flex flex-col items-center w-full gap-10 px-5 mb-10;
   }
 
   .document-list-title {
@@ -105,7 +119,7 @@
   }
 
   .document-list-item {
-    @apply flex items-center justify-between gap-4 rounded-lg bg-doc bg-cover p-5 shadow-xl;
+    @apply flex items-center justify-between gap-4 p-5 bg-cover rounded-lg shadow-xl bg-doc;
   }
 
   .document-list-empty {
@@ -125,7 +139,7 @@
   }
 
   .collaborators-list {
-    @apply hidden items-center justify-end -space-x-3 overflow-hidden sm:flex;
+    @apply items-center justify-end hidden -space-x-3 overflow-hidden sm:flex;
   }
 
   .share-input {
@@ -133,11 +147,11 @@
   }
 
   .remove-btn {
-    @apply rounded-lg bg-transparent px-0 text-red-500 hover:bg-transparent;
+    @apply px-0 text-red-500 bg-transparent rounded-lg hover:bg-transparent;
   }
 
   .comments-container {
-    @apply mb-10 space-y-4 lg:w-fit flex w-full flex-col items-center justify-center;
+    @apply flex flex-col items-center justify-center w-full mb-10 space-y-4 lg:w-fit;
   }
 
   .comment-composer {
@@ -149,17 +163,17 @@
   }
 
   .loader {
-    @apply flex size-full h-screen items-center justify-center gap-3 text-white;
+    @apply flex items-center justify-center h-screen gap-3 text-white size-full;
   }
 
   /* ======================== Auth Pages */
   .auth-page {
-    @apply flex h-screen w-full flex-col items-center justify-center gap-10;
+    @apply flex flex-col items-center justify-center w-full h-screen gap-10;
   }
 
   /* ======================== Home Page */
   .home-container {
-    @apply relative flex min-h-screen w-full flex-col items-center gap-5 sm:gap-10;
+    @apply relative flex flex-col items-center w-full min-h-screen gap-5 sm:gap-10;
   }
 
   .document-ul {
@@ -168,7 +182,7 @@
 
   /* ======================== CollaborativeRoom */
   .collaborative-room {
-    @apply flex size-full max-h-screen flex-1 flex-col items-center overflow-hidden;
+    @apply flex flex-col items-center flex-1 max-h-screen overflow-hidden size-full;
   }
 }
 
@@ -203,7 +217,12 @@
 }
 
 .cl-logoBox {
-  height: 52px;
+  height: 64px;
+}
+
+.cl-userButtonPopoverMain,
+.cl-userButtonPopoverFooter {
+  background: #0b1527;
 }
 
 /* ======================== Liveblocks Override */
