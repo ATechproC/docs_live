@@ -50,6 +50,10 @@
     @apply flex items-center;
   }
 
+  .center-element {
+    @apply w-[80%] m-auto;
+  }
+
   .text-28-semibold {
     @apply text-[28px] font-semibold;
   }
