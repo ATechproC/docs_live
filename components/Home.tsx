@@ -4,6 +4,9 @@ import Image from "next/image";
 import AddDocumentBtn from "./AddDocumentBtn";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { getDocuments } from "@/lib/actions/room.action";
+import Link from "next/link";
+import { dateConverter } from "@/lib/utils";
 
 interface UserProps {
     userId: string;
@@ -11,7 +14,7 @@ interface UserProps {
 }
 
 const Home = async () => {
-    
+
     const clerkUser = await currentUser();
 
     if (!clerkUser) return redirect("/sing-in");
@@ -21,6 +24,9 @@ const Home = async () => {
         email: clerkUser.emailAddresses[0].emailAddress,
     };
 
+    const roomDocuments = await getDocuments(clerkUser.emailAddresses[0].emailAddress)
+
+    console.log('roomDocuments : ', roomDocuments.data.length)
     return (
         <main>
             <Header>
@@ -31,43 +37,46 @@ const Home = async () => {
                     </span>
                 </div>
             </Header>
-            <section className="center-element text-center pt-3">
-                {documentsInfo.length > 0 ? (
+            <section className="center-element text-center pt-3 pb-10">
+                {roomDocuments.data.length > 0 ? (
                     <>
                         <div className="center-element mt-2 flex-between">
                             <p>All documents</p>
                             <AddDocumentBtn user={user} />
                         </div>
                         <div className="center-element pt-5 flex flex-col gap-3">
-                            {documentsInfo.map(({ id, title, createdAt }) => {
+                            {roomDocuments.data.map(({ id, metadata : {title}, createdAt }: any) => {
                                 return (
-                                    <div
+                                    <Link href={`/documents/${id}`}
                                         key={id}
-                                        className="relative p-3 rounded-md bg-dark-1 flex-items gap-3"
                                     >
-                                        <div className="bg-dark-2 px-1 py-2 rounded-sm">
-                                            <Image
-                                                src={assets.doc}
-                                                alt="doc"
-                                                width={30}
-                                                height={50}
-                                            />
+                                        <div
+                                            className="relative p-3 rounded-md bg-dark-1 flex-items gap-3"
+                                        >
+                                            <div className="bg-dark-2 px-1 py-2 rounded-sm">
+                                                <Image
+                                                    src={assets.doc}
+                                                    alt="doc"
+                                                    width={30}
+                                                    height={50}
+                                                />
+                                            </div>
+                                            <div className="text-start">
+                                                <p> {title} </p>
+                                                <p className="text-[11px] text-[#B4C6EE]">
+                                                    {dateConverter(createdAt)}
+                                                </p>
+                                            </div>
+                                            <span className="absolute right-4 top-2 cursor-pointer">
+                                                <Image
+                                                    src={assets.deleteIcon}
+                                                    alt=""
+                                                    width={20}
+                                                    height={20}
+                                                />
+                                            </span>
                                         </div>
-                                        <div className="text-start">
-                                            <p> {title} </p>
-                                            <p className="text-[11px] text-[#B4C6EE]">
-                                                {createdAt}
-                                            </p>
-                                        </div>
-                                        <span className="absolute right-4 top-2 cursor-pointer">
-                                            <Image
-                                                src={assets.deleteIcon}
-                                                alt=""
-                                                width={20}
-                                                height={20}
-                                            />
-                                        </span>
-                                    </div>
+                                    </Link>
                                 );
                             })}
                         </div>
