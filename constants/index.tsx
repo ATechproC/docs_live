@@ -6,6 +6,7 @@ import add from "../public/assets/icons/add.svg"
 import deleteIcon from "../public/assets/icons/delete.svg";
 import doc from "../public/assets/icons/doc.svg"
 import search from "../public/assets/icons/search.png"
+import loader from "../public/assets/icons/loader.svg"
 
 export const assets = {
     logo,
@@ -16,6 +17,7 @@ export const assets = {
     deleteIcon, 
     doc,
     search,
+    loader
 }
 
 export const documentsInfo: {
