@@ -1,5 +1,5 @@
-@import "@liveblocks/react-ui/styles.css"; 
-@import "@liveblocks/react-lexical/styles.css"; 
+@import "@liveblocks/react-ui/styles.css";
+@import "@liveblocks/react-lexical/styles.css";
 
 @tailwind base;
 @tailwind components;
@@ -14,6 +14,15 @@
     background: #09111f;
     color: #fff;
     margin: 0;
+  }
+
+  [class*="cl-userButtonPopoverFooter"],
+  [class*="cl-footer"],
+  [class*="clerk-badge"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
   }
 
   .custom-scrollbar::-webkit-scrollbar {
@@ -51,7 +60,7 @@
   }
 
   .center-element {
-    @apply w-[80%] m-auto;
+    @apply w-[90%] md:w-[80%] m-auto;
   }
 
   .text-28-semibold {
@@ -188,6 +197,45 @@
   .collaborative-room {
     @apply flex flex-col items-center flex-1 max-h-screen overflow-hidden size-full;
   }
+
+  /* animations */
+
+  /* ======================= delete modal animation  */
+
+  .open {
+    animation: animation-in .1s linear forwards;
+  }
+
+  .close {
+    animation: animation-out .1s linear forwards;
+  }
+
+  @keyframes animation-in {
+
+    0% {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    100% {
+      opacity: 1;
+    }
+
+  }
+
+  @keyframes animation-out {
+
+    0% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+  }
+
 }
 
 /* ======================== Clerk Override */

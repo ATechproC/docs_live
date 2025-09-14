@@ -1,12 +1,14 @@
-import logo from "../public/assets/icons/logo.svg"
-import edit from "../public/assets/icons/edit.svg"
-import share from "../public/assets/icons/share.svg"
-import bell from "../public/assets/icons/bell.svg"
-import add from "../public/assets/icons/add.svg"
+import logo from "../public/assets/images/logo.png";
+import edit from "../public/assets/icons/edit.svg";
+import share from "../public/assets/icons/share.svg";
+import bell from "../public/assets/icons/bell.svg";
+import add from "../public/assets/icons/add.svg";
 import deleteIcon from "../public/assets/icons/delete.svg";
-import doc from "../public/assets/icons/doc.svg"
-import search from "../public/assets/icons/search.png"
-import loader from "../public/assets/icons/loader.svg"
+import doc from "../public/assets/icons/doc.svg";
+import search from "../public/assets/icons/search.png";
+import loader from "../public/assets/icons/loader.svg";
+import deleteModal from "../public/assets/icons/delete-modal.svg";
+import close from "../public/assets/icons/close.svg";
 
 export const assets = {
     logo,
@@ -17,24 +19,7 @@ export const assets = {
     deleteIcon, 
     doc,
     search,
-    loader
+    loader,
+    deleteModal,
+    close,
 }
-
-export const documentsInfo: {
-    id: number;
-    title: string;
-    createdAt: string;
-}[] = 
-// [];
-[
-        {
-            id: 1,
-            title: "JSM New Project Requirement",
-            createdAt: "Created about 03 hours ago",
-        },
-        {
-            id: 2,
-            title: "JSM New Project Requirement",
-            createdAt: "Created about 03 hours ago",
-        },
-];

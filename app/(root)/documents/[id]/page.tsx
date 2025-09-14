@@ -1,5 +1,3 @@
-// import { Editor } from '@/components/editor/Editor';
-// import Header from '@/components/editor/Header';
 import CollaborativeRoom from '@/components/CollaborativeRoom';
 import { getDocument } from '@/lib/actions/room.action';
 import { getClerkUsers } from '@/lib/actions/user.action';
@@ -7,7 +5,9 @@ import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import React from 'react';
 
-async function Document({ params: { id } }: SearchParamProps) {
+async function Document({ params }: SearchParamProps) {
+
+    const {id} = params;
 
     const clerkUser = await currentUser();
 
@@ -21,7 +21,9 @@ async function Document({ params: { id } }: SearchParamProps) {
     if (!room) redirect("/");
 
     const userIds = Object.keys(room.usersAccesses);
-    const users = await getClerkUsers({ userIds });
+    const users = (await getClerkUsers({ userIds })) || [];
+
+    console.log("users : ", users)
 
     const usersData = users?.map((user: User) => ({
         ...user,
@@ -34,16 +36,12 @@ async function Document({ params: { id } }: SearchParamProps) {
 
 
     return (
-        <>
-            {/* <Header/> */}
-            {/* <Editor /> */}
-            <CollaborativeRoom
-                roomId={id}
-                roomMetadata={room.metadata}
-                users={usersData}
-                currentUserType={currentUserType}
-            />
-        </>
+        <CollaborativeRoom
+            roomId={id}
+            roomMetadata={room.metadata}
+            users={usersData}
+            currentUserType={currentUserType}
+        />
     )
 }
 

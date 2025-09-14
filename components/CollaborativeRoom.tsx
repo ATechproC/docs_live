@@ -2,13 +2,14 @@
 
 import { RoomProvider, ClientSideSuspense } from "@liveblocks/react/suspense";
 import Header from "./Header";
-import { Loader } from "lucide-react";
 import Image from "next/image";
 import { assets } from "@/constants";
 import { Editor } from "./editor/Editor";
 import ActiveCollaborators from "./ActiveCollaborators";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { updateDocument } from "@/lib/actions/room.action";
+import ShareModal from "./ShareModal";
+import Loader from "./Loader";
 
 const CollaborativeRoom = ({
     roomId,
@@ -20,6 +21,10 @@ const CollaborativeRoom = ({
 
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const myRef = useRef(null);
+
     const handleEditing = () => {
         setIsDisabled(false);
     };
@@ -30,8 +35,8 @@ const CollaborativeRoom = ({
     };
 
     useEffect(() => {
+        const input = document.getElementById("input");
         if (!isDisabled) {
-            const input = document.getElementById("input");
             if (input) input.focus();
         }
     }, [isDisabled]);
@@ -39,7 +44,7 @@ const CollaborativeRoom = ({
     const updateTitleHandler = async (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
 
-            // setLoading(true);
+            setIsLoading(true);
 
             try {
                 if (inputValue !== roomMetadata.title) {
@@ -53,42 +58,75 @@ const CollaborativeRoom = ({
                 console.error(error);
             }
 
-            // setLoading(false);
+            setIsLoading(false);
+
         }
+    }
+
+    const handleBlur = async () => {
+        setIsLoading(true);
+
+        try {
+            if (inputValue !== roomMetadata.title) {
+                const updatedDocument = await updateDocument(roomId, inputValue);
+
+                if (updatedDocument) {
+                    setIsDisabled(true);
+                }
+            }
+        } catch (error) {
+            console.error(error);
+        }
+
+        setIsLoading(false);
     }
 
     return (
         <RoomProvider id={roomId}>
             <ClientSideSuspense fallback={<Loader />}>
                 <div className="collaborative-room">
-                    <Header className="w-[40%] ml-16 flex-between">
-                        <div className="flex-items gap-1">
+                    <Header className="w-[40%] gap-10 -ml-12 -mt-3 flex-between">
+                        <div className="relative flex-items gap-1 sm:-ml-10 w-[120px]">
                             <input
                                 id="input"
+                                ref={myRef}
                                 value={inputValue}
                                 onChange={handleChangeInput}
-                                onBlur={() => setIsDisabled(true)}
+                                onBlur={() => {
+                                    setIsDisabled(true);
+                                    handleBlur();
+                                }}
 
                                 onKeyDown={updateTitleHandler}
 
-                                
                                 disabled={isDisabled}
                                 placeholder={!isDisabled ? "" : "Untitled"}
-                                className="bg-transparent text-center w-fit flex-center outline-none border-none text-white"
+                                className="bg-transparent text-center w-[100px] flex-center outline-none border-none text-white sm:-mr-5"
                             />
-                            <Image
-                                onClick={handleEditing}
-                                className="cursor-pointer"
-                                src={assets.edit}
-                                alt="edit"
-                                height={18}
-                                width={18}
-                            />
+                            <div
+                                className="absolute max-sm:-right-5 right-0 top-[50%] -translate-y-[50%]"
+                            >
+                                {isLoading ?
+                                    <span className="md:-mr-10 -mr-2 text-sm text-[#B4C6EE] text-[13px]">saving...</span>
+                                    :
+                                    <Image
+                                        onClick={handleEditing}
+                                        className="cursor-pointer"
+                                        src={assets.edit}
+                                        alt="edit"
+                                        height={18}
+                                        width={18}
+                                    />
+                                }
+                            </div>
                         </div>
-                        <button className="flex-items gap-1 px-2 py-[2px] rounded-md bg-blue-500">
-                            <Image src={assets.share} width={18} height={18} alt="" /> Share
-                        </button>
 
+                        <ShareModal
+                            roomId={roomId}
+                            collaborators={users}
+                            creatorId={roomMetadata.creatorId}
+                            currentUserType={currentUserType}
+                        />
                         <ActiveCollaborators />
                     </Header>
                     <Editor roomId={roomId} currentUserType={currentUserType} />

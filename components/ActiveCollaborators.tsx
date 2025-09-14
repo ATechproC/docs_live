@@ -10,7 +10,7 @@ const ActiveCollaborators = () => {
     const collaborators = others.map(item => item.info);
 
     return (
-        <ul className='collaborators-list'>
+        <ul className='collaborators-list gap-4'>
             {collaborators.map(({id, name, avatar, color}) => {
                 return <li key={id}>
                     <Image

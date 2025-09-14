@@ -1,4 +1,4 @@
-import { assets, documentsInfo } from "@/constants";
+import { assets } from "@/constants";
 import Header from "./Header";
 import Image from "next/image";
 import AddDocumentBtn from "./AddDocumentBtn";
@@ -7,6 +7,8 @@ import { redirect } from "next/navigation";
 import { getDocuments } from "@/lib/actions/room.action";
 import Link from "next/link";
 import { dateConverter } from "@/lib/utils";
+import CloseDeleteModal from "./CloseDeleteModal";
+import Notifications from "./Notifications";
 
 interface UserProps {
     userId: string;
@@ -14,7 +16,6 @@ interface UserProps {
 }
 
 const Home = async () => {
-
     const clerkUser = await currentUser();
 
     if (!clerkUser) return redirect("/sing-in");
@@ -24,61 +25,55 @@ const Home = async () => {
         email: clerkUser.emailAddresses[0].emailAddress,
     };
 
-    const roomDocuments = await getDocuments(clerkUser.emailAddresses[0].emailAddress)
+    const roomDocuments = await getDocuments(
+        clerkUser.emailAddresses[0].emailAddress
+    );
 
-    console.log('roomDocuments : ', roomDocuments.data.length)
     return (
         <main>
             <Header>
-                <div className="md:absolute md:right-11 md:top-[50%] md:-translate-y-[50%]">
-                    <span className="flex-items gap-[3px]">
-                        <Image className="cursor-pointer" src={assets.search} alt="" width={25} height={25} />
-                        <Image className="cursor-pointer" src={assets.bell} alt="" width={20} height={20} />
-                    </span>
+                <div className="absolute right-11 top-[50%] -translate-y-[50%]">
+                    <Notifications />
                 </div>
             </Header>
-            <section className="center-element text-center pt-3 pb-10">
-                {roomDocuments.data.length > 0 ? (
+            <section className="center-element text-center pt-5 pb-10">
+                {roomDocuments?.data.length > 0 ? (
                     <>
                         <div className="center-element mt-2 flex-between">
                             <p>All documents</p>
                             <AddDocumentBtn user={user} />
                         </div>
                         <div className="center-element pt-5 flex flex-col gap-3">
-                            {roomDocuments.data.map(({ id, metadata : {title}, createdAt }: any) => {
-                                return (
-                                    <Link href={`/documents/${id}`}
-                                        key={id}
-                                    >
-                                        <div
-                                            className="relative p-3 rounded-md bg-dark-1 flex-items gap-3"
-                                        >
-                                            <div className="bg-dark-2 px-1 py-2 rounded-sm">
-                                                <Image
-                                                    src={assets.doc}
-                                                    alt="doc"
-                                                    width={30}
-                                                    height={50}
-                                                />
-                                            </div>
-                                            <div className="text-start">
-                                                <p> {title} </p>
-                                                <p className="text-[11px] text-[#B4C6EE]">
-                                                    {dateConverter(createdAt)}
-                                                </p>
-                                            </div>
-                                            <span className="absolute right-4 top-2 cursor-pointer">
-                                                <Image
-                                                    src={assets.deleteIcon}
-                                                    alt=""
-                                                    width={20}
-                                                    height={20}
-                                                />
-                                            </span>
+                            {roomDocuments.data.map(
+                                ({ id, metadata: { title }, createdAt }: any) => {
+                                    return (
+                                        <div key={id} className="relative">
+                                            <Link href={`/documents/${id}`}>
+                                                <div className="relative p-3 rounded-md bg-dark-1 flex-items gap-3">
+                                                    <div className="bg-dark-2 px-1 py-2 rounded-sm">
+                                                        <Image
+                                                            src={assets.doc}
+                                                            alt="doc"
+                                                            width={30}
+                                                            height={50}
+                                                        />
+                                                    </div>
+                                                    <div className="text-start">
+                                                        <p> {title} </p>
+                                                        <p className="text-[11px] text-[#B4C6EE]">
+                                                            {dateConverter(createdAt)}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                            <CloseDeleteModal
+                                                roomId={id}
+                                                className="absolute right-4 top-2 cursor-pointer"
+                                            />
                                         </div>
-                                    </Link>
-                                );
-                            })}
+                                    );
+                                }
+                            )}
                         </div>
                     </>
                 ) : (

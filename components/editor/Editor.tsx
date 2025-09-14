@@ -19,6 +19,7 @@ import FloatingToolbarPlugin from './plugins/FloatingToolbarPlugin'
 
 import { useThreads, useUser } from '@liveblocks/react/suspense';
 import Comments from '../Comments';
+import CloseDeleteModal from '../CloseDeleteModal';
 
 // Catch any errors that occur during Lexical updates and log them
 // or throw them as needed. If you don't throw them, Lexical will
@@ -34,7 +35,7 @@ export function Editor({ roomId, currentUserType }: {
 
   const isReady = useIsEditorReady();
 
-  const {threads} = useThreads()
+  const {threads} = useThreads();
 
   const initialConfig = liveblocksConfig({
     namespace: 'Editor',
@@ -52,7 +53,9 @@ export function Editor({ roomId, currentUserType }: {
       <div className="editor-container size-full">
         <div className='toolbar-wrapper flex min-w-full flex-between'>
           <ToolbarPlugin />
-          {/* {currentUserType === "editor" && <DeleteModal roomId={roomId} />} */}
+          {currentUserType === "editor" && <CloseDeleteModal 
+          className='cursor-pointer'
+          roomId={roomId} />}
         </div>
 
         <div className='editor-wrapper flex flex-col items-center justify-start'>

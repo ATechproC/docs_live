@@ -6,6 +6,8 @@ import { Metadata } from "next"
 import { ClerkProvider } from "@clerk/nextjs"
 import { dark } from "@clerk/themes"
 import Provider from "./Provider"
+import DeleteModal from "@/components/DeleteModal"
+import DeleteModalProvider from "@/providers/DeleteModalProvider"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -37,7 +39,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           )}
         >
           <Provider>
-            {children}
+            <DeleteModalProvider>
+              {children}
+              <DeleteModal />
+            </DeleteModalProvider>
           </Provider>
         </body>
       </html>

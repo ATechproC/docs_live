@@ -31,7 +31,7 @@ const AddDocumentBtn = ({user : {userId, email}} : UserProps) => {
     onClick={addDocumentHandler}
     className="flex-items text-sm gap-[2px] px-2 py-1 bg-blue-500 rounded-md">
         <Image src={assets.add} alt="" width={20} height={20} />
-        Start a blank document
+        <span className="hidden md:block">Start a blank document</span>
     </button>
 }
 

@@ -3,20 +3,18 @@ import { UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-// import ActiveCollaborators from "./ActiveCollaborators";
-
 interface HeaderProps  {
     children: React.ReactNode;
     className ?: string
 }
 
 const Header = ({ children, className }: HeaderProps) => {
-    console.log(typeof children)
+
     return (
-        <header className="md:relative flex-between text-center w-[90%] m-auto flex-wrap mt-1">
-            <Link href="/"
-            className="w-[100px]">
-                <Image src={assets.logo} width={100} height={60} alt="logo" />
+        <header className="relative flex-between text-center w-[90%] m-auto pt-3">
+            <Link href="/" className="-mt-3 flex-items gap-1">
+                <Image src={assets.logo} width={50} height={30} alt="logo" />
+                <span className="hidden md:block">LiveDocs</span>
             </Link>
 
             <div className={className}>
@@ -24,7 +22,7 @@ const Header = ({ children, className }: HeaderProps) => {
             </div>
 
             {/* user profile from clerk */}
-            <div className="grid place-items-center">
+            <div className="grid place-items-center -mt-3">
                 <UserButton />
             </div>
         </header>
