@@ -15,14 +15,14 @@ interface UserProps {
     email: string;
 }
 
-interface Document {
-    id: string;
-    metadata: {
-        title: string;
-        [key: string]: any; // if there are other properties
-    };
-    createdAt: string | Date;
-}
+// interface Document {
+//     id: string;
+//     metadata: {
+//         title: string;
+//         [key: string]: any; // if there are other properties
+//     };
+//     createdAt: string | Date;
+// }
 
 const Home = async () => {
     const clerkUser = await currentUser();
@@ -54,7 +54,7 @@ const Home = async () => {
                         </div>
                         <div className="center-element pt-5 flex flex-col gap-3">
                             {roomDocuments.data.map(
-                                ({ id, metadata: { title }, createdAt }: Document) => {
+                                ({ id, metadata: { title }, createdAt }: any) => {
                                     return (
                                         <div key={id} className="relative">
                                             <Link href={`/documents/${id}`}>
