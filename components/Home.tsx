@@ -15,19 +15,11 @@ interface UserProps {
     email: string;
 }
 
-// interface Document {
-//     id: string;
-//     metadata: {
-//         title: string;
-//         [key: string]: any; // if there are other properties
-//     };
-//     createdAt: string | Date;
-// }
-
 const Home = async () => {
+
     const clerkUser = await currentUser();
 
-    if (!clerkUser) return redirect("/sing-in");
+    if (!clerkUser) return redirect("/sign-in");
 
     const user: UserProps = {
         userId: clerkUser.id,

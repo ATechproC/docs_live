@@ -12,7 +12,7 @@ const Header = ({ children, className }: HeaderProps) => {
 
     return (
         <header className="relative flex-between text-center w-[90%] m-auto pt-3">
-            <Link href="/" className="-mt-3 flex-items gap-1">
+            <Link href="/" className="-mt-2.5 flex-items gap-1">
                 <Image src={assets.logo} width={50} height={30} alt="logo" />
                 <span className="hidden md:block">LiveDocs</span>
             </Link>
