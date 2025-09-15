@@ -107,7 +107,7 @@ const CollaborativeRoom = ({
                                 className="absolute max-sm:-right-5 right-0 top-[50%] -translate-y-[50%]"
                             >
                                 {isLoading ?
-                                    <span className="md:-mr-10 -mr-2 text-sm text-[#B4C6EE] text-[13px] relative top-4 left-0">saving...</span>
+                                    <span className="md:-mr-10 -mr-2 text-sm text-[#B4C6EE] text-[13px] max-sm:relative max-sm:top-3.5 max-sm:left-0">saving...</span>
                                     :
                                     <Image
                                         onClick={handleEditing}
